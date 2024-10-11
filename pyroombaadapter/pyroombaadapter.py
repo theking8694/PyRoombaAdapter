@@ -40,12 +40,13 @@ class PyRoombaAdapter:
            "Clean": 135,
            "Max": 136,
            "Drive": 137,
-           "Moters": 138,
+           "Motors": 138,
+           "LEDs": "139",
            "Song": 140,
            "Play": 141,
            "Sensors": 142,
            "Seek Dock": 143,
-           "PWM Moters": 144,
+           "PWM Motors": 144,
            "Drive Direct": 145,
            "Drive PWM": 146,
            "Query List": 149,
@@ -483,6 +484,27 @@ class PyRoombaAdapter:
         side_brush_pwm = self._get_1_bytes(self._adjust_min_max(side_brush_pwm, -127, 127))
         vacuum_pwm = self._adjust_min_max(vacuum_pwm, 0, 127)
         self._send_cmd([self.CMD["PWM Moters"], main_brush_pwm, side_brush_pwm, vacuum_pwm])
+
+    def set_leds(self, debris=False, spot=False, dock=False, check_robot=False, power_color, power_intensity):
+        """
+        This command controls the LEDs common to all models of Roomba 600. The power LED is specified by
+            two data bytes: one for the color and the other for the intensity.
+
+        Similar to the buttons function
+        """
+        leds = 0
+        if debris:
+            leds |= 0b00000001
+        if spot:
+            leds |= 0b00000010
+        if dock:
+            leds |= 0b00000100
+        if check_robot:
+            leds |= 0b00001000
+        power_color_clamp = self._adjust_min_max(power_color, 0, 127)
+        power_intensity_clamp = self._adjust_min_max(power_intensity, 0, 127)
+        self._send_cmd([self.CMD["LEDs"], leds, power_color_clamp, power_intensity_clamp])
+
 
     def send_buttons_cmd(self, clean=False, spot=False, dock=False,
                          minute=False, hour=False, day=False, schedule=False, clock=False):

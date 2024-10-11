@@ -1,6 +1,6 @@
 <img src="https://github.com/AtsushiSakai/PyRoombaAdapter/raw/master/docs/icon.png?raw=true" align="right" width="300"/>
 
-# PyRoombaAdapter
+# PyRoombaAdapter - Fork
 
 A Python library for Roomba Open Interface
 
@@ -20,6 +20,10 @@ It aims to control a Roomba easily.
 
 This fork is being developed and tested on Roomba 675 model. 
 
+Planned Additions:
+> LEDs (139)
+> more examples
+> more functions? (the create 2 docs do not add very much apparently?)
 # Install
 
 You can use pip to install it.
