@@ -412,12 +412,12 @@ class PyRoombaAdapter:
         # send these bytes and set the stored velocities
         self._send_cmd([self.CMD["Drive PWM"], right_high, right_low, left_high, left_low])
 
-    def send_moters_cmd(self, main_brush_on, main_brush_direction_is_ccw,
+    def send_motors_cmd(self, main_brush_on, main_brush_direction_is_ccw,
                         side_brush_on, side_brush_direction_is_inward,
                         vacuum_on
                         ):
         """
-        send moters command
+        send motors command
 
         This command controls the motion of Roomba’s main brush, side brush, and vacuum independently.
         Motor velocity cannot be controlled with this command, all motors will run at maximum speed when enabled.
@@ -438,7 +438,7 @@ class PyRoombaAdapter:
         Examples:
             >>> PORT = "/dev/ttyUSB0"
             >>> adapter = PyRoombaAdapter(PORT)
-            >>> adapter.send_moters_cmd(False, True, True, True, False) # side brush is on, and it rotates inward
+            >>> adapter.send_motors_cmd(False, True, True, True, False) # side brush is on, and it rotates inward
             >>> sleep(2.0) # keep 2 sec
         """
         cmd = 0  # All initial bit is 0
@@ -453,11 +453,11 @@ class PyRoombaAdapter:
         if not main_brush_direction_is_ccw:
             cmd |= 0b00010000
 
-        self._send_cmd([self.CMD["Moters"], cmd])
+        self._send_cmd([self.CMD["Motors"], cmd])
 
-    def send_pwm_moters(self, main_brush_pwm, side_brush_pwm, vacuum_pwm):
+    def send_pwm_motors(self, main_brush_pwm, side_brush_pwm, vacuum_pwm):
         """
-        send pwm moters
+        send pwm motors
 
         This command control the speed of Roomba’s main brush, side brush, and vacuum independently.
         With each data byte, you specify the duty cycle for the low side driver (max 128).
@@ -477,13 +477,13 @@ class PyRoombaAdapter:
 
         Examples:
             >>> adapter = PyRoombaAdapter("/dev/ttyUSB0")
-            >>> adapter.send_pwm_moters(-55, 0, 0) # main brush is 55% PWM to opposite direction
+            >>> adapter.send_pwm_motors(-55, 0, 0) # main brush is 55% PWM to opposite direction
             >>> sleep(2.0) # keep 2 sec
         """
         main_brush_pwm = self._get_1_bytes(self._adjust_min_max(main_brush_pwm, -127, 127))
         side_brush_pwm = self._get_1_bytes(self._adjust_min_max(side_brush_pwm, -127, 127))
         vacuum_pwm = self._adjust_min_max(vacuum_pwm, 0, 127)
-        self._send_cmd([self.CMD["PWM Moters"], main_brush_pwm, side_brush_pwm, vacuum_pwm])
+        self._send_cmd([self.CMD["PWM Motors"], main_brush_pwm, side_brush_pwm, vacuum_pwm])
 
     def set_leds(self, debris=False, spot=False, dock=False, check_robot=False, power_color=0, power_intensity=64):
         """
@@ -493,7 +493,7 @@ class PyRoombaAdapter:
             Home and Spot use green LEDs: 0 = off, 1 = on
             Check Robot uses an orange LED.
             Debris uses a blue LED.
-            
+
             Power uses a bicolor (red/green) LED. The intensity and color of this LED can be controlled with 8-bit
             resolution.
 
@@ -910,8 +910,8 @@ def main():
     # adapter.move(0.1, math.radians(-10))
     # adapter.send_drive_pwm(80, 80)
     # adapter.send_drive_pwm(-200, -200)
-    # adapter.send_moters_cmd(False, True, True, True, False)
-    # adapter.send_pwm_moters(-55, -25, 25)
+    # adapter.send_motors_cmd(False, True, True, True, False)
+    # adapter.send_pwm_motors(-55, -25, 25)
     # adapter.send_buttons_cmd(dock=True)
     # sleep(1.0)
 
