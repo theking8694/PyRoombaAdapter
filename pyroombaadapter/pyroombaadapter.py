@@ -41,7 +41,7 @@ class PyRoombaAdapter:
            "Max": 136,
            "Drive": 137,
            "Motors": 138,
-           "LEDs": "139",
+           "LEDs": 139,
            "Song": 140,
            "Play": 141,
            "Sensors": 142,
