@@ -485,10 +485,20 @@ class PyRoombaAdapter:
         vacuum_pwm = self._adjust_min_max(vacuum_pwm, 0, 127)
         self._send_cmd([self.CMD["PWM Moters"], main_brush_pwm, side_brush_pwm, vacuum_pwm])
 
-    def set_leds(self, debris=False, spot=False, dock=False, check_robot=False, power_color, power_intensity):
+    def set_leds(self, debris=False, spot=False, dock=False, check_robot=False, power_color=0, power_intensity=64):
         """
         This command controls the LEDs common to all models of Roomba 600. The power LED is specified by
             two data bytes: one for the color and the other for the intensity.
+
+            Home and Spot use green LEDs: 0 = off, 1 = on
+            Check Robot uses an orange LED.
+            Debris uses a blue LED.
+            
+            Power uses a bicolor (red/green) LED. The intensity and color of this LED can be controlled with 8-bit
+            resolution.
+
+            Power LED Color (0 – 255)   0 = green, 255 = red. Intermediate values are intermediate colors (orange, yellow, etc).
+            Power LED Intensity (0 – 255)   0 = off, 255 = full intensity. Intermediate values are intermediate intensities.
 
         Similar to the buttons function
         """
@@ -501,8 +511,8 @@ class PyRoombaAdapter:
             leds |= 0b00000100
         if check_robot:
             leds |= 0b00001000
-        power_color_clamp = self._adjust_min_max(power_color, 0, 127)
-        power_intensity_clamp = self._adjust_min_max(power_intensity, 0, 127)
+        power_color_clamp = self._adjust_min_max(power_color, 0, 255)
+        power_intensity_clamp = self._adjust_min_max(power_intensity, 0, 255)
         self._send_cmd([self.CMD["LEDs"], leds, power_color_clamp, power_intensity_clamp])
 
 
