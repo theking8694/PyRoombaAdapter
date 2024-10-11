@@ -14,11 +14,11 @@ This is a python library for Roomba Open Interface(ROI)
 
 This module is based on the document:
 
-- [iRobot® Roomba 500 Open Interface (OI) Specification](https://www.irobot.lv/uploaded_files/File/iRobot_Roomba_500_Open_Interface_Spec.pdf)
+- [iRobot® Roomba Create 2 (600 series) Open Interface (OI) Specification](https://edu.irobot.com/learning-library/create-2-oi-spec)
 
 It aims to control a Roomba easily.
 
-This module is only tested on Roomba 690 model. 
+This fork is being developed and tested on Roomba 675 model. 
 
 # Install
 
