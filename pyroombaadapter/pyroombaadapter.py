@@ -490,17 +490,15 @@ class PyRoombaAdapter:
         This command controls the LEDs common to all models of Roomba 600. The power LED is specified by
             two data bytes: one for the color and the other for the intensity.
 
-            Home and Spot use green LEDs: 0 = off, 1 = on
-            Check Robot uses an orange LED.
-            Debris uses a blue LED.
-
             Power uses a bicolor (red/green) LED. The intensity and color of this LED can be controlled with 8-bit
             resolution.
 
-            Power LED Color (0 – 255)   0 = green, 255 = red. Intermediate values are intermediate colors (orange, yellow, etc).
-            Power LED Intensity (0 – 255)   0 = off, 255 = full intensity. Intermediate values are intermediate intensities.
-
-        Similar to the buttons function
+            :param bool debris: debris light on (blue) (not present on some models)
+            :param bool spot: spot button light on (green)
+            :param bool dock: dock button light on (green)
+            :param bool check_robot: warning light on (orange)
+            :param int power_color: battery light color (0=green, 255=red, 0 - 255, colors do mix)
+            :param int power_intensity: battery light brightness (0 - 255)
         """
         leds = 0
         if debris:
